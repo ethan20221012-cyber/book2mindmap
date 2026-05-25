@@ -1,0 +1,45 @@
+你是一个图书目录提取助手。下面是关于《{book_title}》这本书的两份独立来源的搜索原料。
+
+## 任务
+
+1. 分别从两份原料中提取**章节目录**
+2. 对比两份提取结果，处理冲突：
+   - 章节数完全一致 → 直接合并
+   - 章节数有差异（≤ 2 章差异）→ 取并集，标注哪些章有分歧
+   - 章节数差异大（> 2 章）→ 选信息密度高的那份，并降低 `confidence` 字段
+3. 输出 JSON
+
+## 输入
+
+### 原料 A（bing-search）
+```
+{search_a}
+```
+
+### 原料 B（tavily）
+```
+{search_b}
+```
+
+## 输出格式（严格 JSON，写入 `cache/<slug>/outline.json`）
+
+```json
+{
+  "book_title": "{book_title}",
+  "author": "作者名（如能确定）",
+  "language": "zh|en",
+  "confidence": "high|medium|low",
+  "chapters": [
+    {"index": 1, "title": "章名", "summary": "一句话概要"},
+    {"index": 2, "title": "章名", "summary": "一句话概要"}
+  ],
+  "notes": "对仲裁过程的简要说明，如：A 给出 12 章 / B 给出 11 章，第 7 章疑似合并；以 A 为准。"
+}
+```
+
+## 约束
+
+- 章数 ≥ 3，否则 `confidence: low` 并在 notes 说明信息不足
+- 章名保持原书语言（中文书用中文，英文书用英文）
+- 不要编造原料里完全没出现过的章名；找不到时章名写 `"（未知）"` 并在 summary 说明
+- summary ≤ 30 字

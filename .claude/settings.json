@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python book2mindmap.py:*)",
+      "Bash(python:*book2mindmap*)",
+      "Bash(lark-cli docs:*)",
+      "Bash(lark-cli whiteboard:*)",
+      "Bash(lark-cli drive:*)",
+      "Bash(lark-cli im:*)",
+      "Bash(lark-cli contact:*)",
+      "Bash(mkdir -p:*)",
+      "Read(f:/claude_lark_workspace/book2mindmap/**)",
+      "Write(f:/claude_lark_workspace/book2mindmap/**)",
+      "Edit(f:/claude_lark_workspace/book2mindmap/**)"
+    ],
+    "deny": []
+  }
+}
